@@ -1,9 +1,14 @@
 import express from "express";
-import { createRoom, deleteRoom, getAllRooms, getRoom, updateRoom } from "../controllers/hotel.controller.js";
+import {
+  createRoom,
+  deleteRoom,
+  getAllRooms,
+  getRoom,
+  updateRoom,
+} from "../controllers/room.controller.js";
 import { verifyAdmin } from "../utils/verifyToken.js";
 
 const roomsRouter = express.Router();
-
 
 //CREATE
 roomsRouter.post("/:hotelid", verifyAdmin, createRoom);
@@ -20,6 +25,4 @@ roomsRouter.get("/:id", getRoom);
 //GET ALL
 roomsRouter.get("/", getAllRooms);
 
-
-
-export default roomsRouter
+export default roomsRouter;
