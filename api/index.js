@@ -33,22 +33,23 @@ mongoose.connection.on("connected", ()=>{
     console.log("mongo db connected");
 })
 
-// Routes
-app.get("/", (req, res)=>{
-    res.json("Hello first request")
-});
 
-app.listen(8800, () => {
-  connectToMongoDB();
-  console.log("Connected to backend.");
-});
-
-//middlewares
-app.use(cors);
+// middlewares
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(errorHandler);
 app.use(boomErrorHandler);
 
+// Routes
 routerApi(app);
 
+
+app.get("/", (req, res)=>{
+  res.json("Hello first request")
+});
+
+app.listen(8800, () => {
+connectToMongoDB();
+console.log("Connected to backend.");
+});
