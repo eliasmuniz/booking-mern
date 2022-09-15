@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
+import { createError } from "../utils/errorHandler.js";
 import jwt from "jsonwebtoken";
 
 export const register = async (req, res, next) => {
@@ -24,7 +25,7 @@ export const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });
 
-    if (!user) return next();
+    if (!user) return next(createError(404, "User not found!"));
 
     const isPasswordCorrect = await bcrypt.compare(
       req.body.password,
@@ -33,7 +34,8 @@ export const login = async (req, res, next) => {
 
     //if(!isPasswordCorrect) return next(createError(400, "Wrong password or username"));
     // TODO: Create a function to return errors without boom
-    if (!isPasswordCorrect) return next();
+    if (!isPasswordCorrect)
+      return next(createError(400, "Wrong password or username!"));
 
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },

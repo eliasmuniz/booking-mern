@@ -6,27 +6,33 @@ import "./login.css";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
-    username: undefined,
+    email: undefined,
     password: undefined,
   });
 
-  const { loading, error, dispatch } = useContext(AuthContext);
+  const { user, loading, error, dispatch } = useContext(AuthContext);
 
   const handleChange = (e) => {
-    setCredentials(prev=>({...prev, [e.target.id]: e.target.value}))
+    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
-  const handleClick = async (e) =>{
+  const handleClick = async (e) => {
     e.preventDefault();
-    dispatch({type: "LOGIN_START"})
+    dispatch({ type: "LOGIN_START" });
 
     try {
-        const res = await axios.post("http://localhost:8800/api/v1/auth/login/", credentials);
-        dispatch({type: "LOGIN_SUCCESS", payload: res.data})
-    } catch (error) {
-        dispatch({type: "LOGIN_FAILURE", payload: error.response.data})
+      const res = await axios.post(
+        "http://localhost:8800/api/v1/auth/login/",
+        credentials
+      );
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+    } catch (err) {
+      console.log("err.response.data ", err.response.data);
+      dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
     }
-  }
+  };
+
+  console.log(user);
 
   return (
     <div className="login">
@@ -45,7 +51,9 @@ const Login = () => {
           onChange={handleChange}
           className="lInput"
         />
-        <button onClick={handleClick} className="lButton">Login</button>
+        <button onClick={handleClick} className="lButton">
+          Login
+        </button>
         {error && <span>{error.message}</span>}
       </div>
     </div>
