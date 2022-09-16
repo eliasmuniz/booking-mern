@@ -2,7 +2,7 @@ import express from "express";
 import { verifyAdmin } from "../utils/verifyToken.js";
 
 // Controllers
-import { createHotel, deleteHotel, getAllHotels, getHotel, updateHotel, countByCity, countByType } from "../controllers/hotel.controller.js";
+import { createHotel, deleteHotel, getAllHotels, getHotel, updateHotel, countByCity, countByType, getHotelRooms } from "../controllers/hotel.controller.js";
 
 const hotelsRouter = express.Router();
 
@@ -23,6 +23,7 @@ hotelsRouter.get("/", getAllHotels);
 
 hotelsRouter.get("/countByCity", countByCity);
 hotelsRouter.get("/countByType", countByType);
+hotelsRouter.get("/room/:id", getHotelRooms);
 
 
 export default hotelsRouter
