@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { SearchContext } from "../../context/SearchContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const Header = ({ type }) => {
   const [destination, setDestination] = useState("");
@@ -51,6 +52,9 @@ const Header = ({ type }) => {
     dispatch({type:"NEW_SEARCH", payload:{destination, dates: dates,options}})
     navigate("/hotels", { state: { destination, dates: dates, options } });
   };
+
+  const { user } = useContext(AuthContext);
+
 
   return (
     <div className="header">
@@ -90,7 +94,11 @@ const Header = ({ type }) => {
               Get rewarded for your travels – unlock instant savings of 10% or
               more with a free Lamabooking account
             </p>
-            <button className="headerBtn">Sign in / Register</button>
+            {
+              !user && (
+                <button className="headerBtn">Sign in / Register</button>
+              )
+              }
             <div className="headerSearch">
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faBed} className="headerIcon" />
