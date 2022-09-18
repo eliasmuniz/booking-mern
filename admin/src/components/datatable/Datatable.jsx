@@ -10,7 +10,7 @@ const Datatable = ({columns}) => {
   const location = useLocation();
   const path = location.pathname.split("/")[1];
   const [list, setList] = useState();
-  const { data, loading, error } = useFetch(`http://localhost:8800/api/v1/${path}`);
+  const { data, loading, error } = useFetch(`/${path}`);
 
   useEffect(() => { 
     setList(data);
@@ -18,7 +18,7 @@ const Datatable = ({columns}) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8800/api/v1/${path}/${id}`);
+      await axios.delete(`/${path}/${id}`);
       setList(list.filter((item) => item._id !== id));
     } catch (err) {}
   };
