@@ -7,7 +7,7 @@ import "./login.scss";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
-    username: undefined,
+    email: undefined,
     password: undefined,
   });
 
@@ -22,9 +22,9 @@ const Login = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
-    
+     
     try {
-      const res = await axios.post("/auth/login", credentials);
+      const res = await axios.post("http://localhost:8800/api/v1/auth/login/", credentials);
       if (res.data.isAdmin) {
         dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
 
@@ -45,8 +45,8 @@ const Login = () => {
       <div className="lContainer">
         <input
           type="text"
-          placeholder="username"
-          id="username"
+          placeholder="email"
+          id="email"
           onChange={handleChange}
           className="lInput"
         />
