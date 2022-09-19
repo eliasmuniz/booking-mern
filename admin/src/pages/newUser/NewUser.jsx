@@ -1,11 +1,11 @@
-import "./new.scss";
+import "./newUser.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
 import axios from "axios";
 
-const New = ({ inputs, title }) => {
+const NewUser = ({ inputs, title }) => {
   const [file, setFile] = useState("");
   const [info, setInfo] = useState({});
 
@@ -20,7 +20,7 @@ const New = ({ inputs, title }) => {
     data.append("upload_preset", "upload");
     try {
       const uploadRes = await axios.post(
-        "https://api.cloudinary.com/v1_1/lamadev/image/upload",
+        process.env.REACT_APP_CLOUDINARY_KEY,
         data
       );
 
@@ -31,7 +31,7 @@ const New = ({ inputs, title }) => {
         img: url,
       };
 
-      await axios.post("http://localhost:8800/api/v1/auth/register", newUser);
+      await axios.post("/auth/register", newUser, {withCredentials: true});
     } catch (err) {
       console.log(err);
     }
@@ -91,4 +91,4 @@ const New = ({ inputs, title }) => {
   );
 };
 
-export default New;
+export default NewUser;

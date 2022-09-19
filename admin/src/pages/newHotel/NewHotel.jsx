@@ -12,7 +12,7 @@ const NewHotel = () => {
   const [info, setInfo] = useState({});
   const [rooms, setRooms] = useState([]);
 
-  const { data, loading, error } = useFetch("http://localhost:8800/api/v1/rooms");
+  const { data, loading, error } = useFetch("/rooms");
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -37,7 +37,7 @@ const NewHotel = () => {
           data.append("file", file);
           data.append("upload_preset", "upload");
           const uploadRes = await axios.post(
-            "https://api.cloudinary.com/v1_1/lamadev/image/upload",
+            process.env.REACT_APP_CLOUDINARY_KEY,
             data
           );
 
@@ -50,9 +50,9 @@ const NewHotel = () => {
         ...info,
         rooms,
         photos: list,
-      };
+      }; 
 
-      await axios.post("http://localhost:8800/api/v1/hotels", newhotel);
+      await axios.post("/hotels/", newhotel, {withCredentials: true});
     } catch (err) {console.log(err)}
   };
   return (
